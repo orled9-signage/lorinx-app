@@ -245,6 +245,7 @@ tr.hot td{background:var(--badbg)}
     {id:"fin",order:4,name:"כספים",st:"ok",tools:["Shopify","Sheets"],clips:false,agents:[A("סמנכ\"ל כספים","כל יום 06:58","רווח נטו יומי מהזמנות אמיתיות, בלי הזמנות בדיקה")],stats:[],sections:[]},
     {id:"ops",order:5,name:"תפעול",st:"ok",tools:["Shopify","AutoDS","Gmail"],clips:false,agents:[A("תפעול","כל יום 09:27","הזמנות מול AutoDS: תקין, לבדיקה, באיחור, נתקע"),A("החזרות","לפי פנייה","טיוטה אליך, לא ביצוע")],stats:[],sections:[]},
     {id:"res",order:6,name:"מחקר ו-SEO",st:"ok",tools:["רשת","Sheets"],clips:false,agents:[A("מחקר","שבת 09:47","מתחרים, טרנדים, שאלות לקוחות, 10 הוקים"),A("SEO","שני 08:49","מאמר בלוג אחד בעברית, טיוטה לאישור")],stats:[],sections:[]}
+    ,{id:"ads",order:7,name:"מודעות (מטא)",st:"off",tools:["Meta Ads"],clips:false,agents:[A("סוכן מודעות","מושהה עד חיבור","שלב 1, קריאה בלבד: הוצאה, עלות לרכישה, ROAS ועייפות קריאייטיב. תקרה 120 ₪ ליום. שינוי או הוצאה רק אחרי אשר")],stats:[],sections:[]}
   ];
   var D_TODOS=[
     {id:"t1",text:"לוודא שאמצעי התשלום ב-Shopify עודכן (החיוב ב-30.9 כבר עבר)",dept:"ops",done:false},
@@ -1028,6 +1029,7 @@ tr.hot td{background:var(--badbg)}
       if(s.empty){storeEmpty=true;if(canWrite)seed();return}
       storeEmpty=false;seeded=true;
       var arr=s.docs.map(function(x){var v=clone(x.data());v.id=x.id;v.stats=v.stats||[];v.agents=v.agents||[];v.sections=v.sections||[];v.tools=v.tools||[];return v}).sort(function(a,b){return (a.order||0)-(b.order||0)});
+      try{if(!localStorage.getItem("lx_ads_v1")&&!arr.some(function(x){return x.id==="ads"})){var ad=clone(D_DEPTS.filter(function(x){return x.id==="ads"})[0]);arr.push(ad);localStorage.setItem("lx_ads_v1","1");if(canWrite)saveDept(clone(ad))}}catch(e){}
       if(J(arr)===J(M.depts))return;M.depts=arr;render();
     },function(){});
     db.doc("cfg/biz").onSnapshot(function(s){if(!s.exists)return;var v=s.data();if(J(v)===J(M.biz))return;M.biz=clone(v);render()},function(){});
